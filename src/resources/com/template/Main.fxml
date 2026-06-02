@@ -8,30 +8,50 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.template.MainController">
+
     <children>
-        <Pane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: purple;">
+        <Pane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: indigo;">
+
             <children>
-                <Button fx:id="btnSalvar" layoutX="487.0" layoutY="237.0" mnemonicParsing="false" onAction="#btnSalvarAction" prefHeight="26.0" prefWidth="56.0" text="Salvar" />
-                <Button fx:id="btnEditar" layoutX="487.0" layoutY="273.0" mnemonicParsing="false" onAction="#btnEditarAction" prefHeight="26.0" prefWidth="56.0" text="Editar" />
-                <Button fx:id="btnDeletar" layoutX="487.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnDeletarAction" text="Deletar" />
-                <Label layoutX="12.0" layoutY="48.0" prefHeight="17.0" prefWidth="70.0" style="text: purple;" text="Nome" textFill="WHITE" />
-                <Label layoutX="12.0" layoutY="83.0" prefHeight="17.0" prefWidth="70.0" text="Endereço" textFill="WHITE" />
-                <TextField fx:id="txtNome" layoutX="143.0" layoutY="44.0" />
-                <TextField fx:id="txtEndereco" layoutX="143.0" layoutY="79.0" />
-                <TableView fx:id="tblAcademia" layoutX="14.0" layoutY="186.0" prefHeight="200.0" prefWidth="417.0">
+
+                <Button fx:id="btnSalvar" layoutX="459.0" layoutY="44.0" mnemonicParsing="false" onAction="#btnSalvarAction" prefHeight="26.0" prefWidth="56.0" style="-fx-background-color: violet;" text="Salvar" />
+
+                <Button fx:id="btnEditar" layoutX="459.0" layoutY="79.0" mnemonicParsing="false" onAction="#btnEditarAction" prefHeight="26.0" prefWidth="56.0" style="-fx-background-color: violet;" text="Editar" />
+
+                <Button fx:id="btnDeletar" layoutX="459.0" layoutY="111.0" mnemonicParsing="false" onAction="#btnDeletarAction" style="-fx-background-color: purple;" text="Deletar" textFill="WHITE" />
+                <Button fx:id="btnLimpar" layoutX="459.0" layoutY="146.0" mnemonicParsing="false" onAction="#btnLimparAction" prefHeight="26.0" prefWidth="56.0" style="-fx-background-color: cyan;" text="Limpar" />
+                <Label layoutX="12.0" layoutY="48.0" text="Nome" textFill="VIOLET" />
+
+                <Label layoutX="12.0" layoutY="83.0" text="Endereço" textFill="VIOLET" />
+
+                <TextField fx:id="txtNome" layoutX="143.0" layoutY="44.0" style="-fx-background-color: violet;" />
+
+                <TextField fx:id="txtEndereco" layoutX="143.0" layoutY="79.0" style="-fx-background-color: violet;" />
+
+                <Label layoutX="12.0" layoutY="115.0" text="Telefone" textFill="VIOLET" />
+
+                <TextField fx:id="txtTelefone" layoutX="143.0" layoutY="110.0" style="-fx-background-color: violet;" />
+
+                <Label layoutX="12.0" layoutY="151.0" text="Quantidade de alunos" textFill="VIOLET" />
+
+                <TextField fx:id="txtQuantAlunos" layoutX="143.0" layoutY="146.0" style="-fx-background-color: violet;" />
+
+                <TableView fx:id="tblAcademia" layoutX="29.0" layoutY="186.0" prefHeight="200.0" prefWidth="543.0" style="-fx-background-color: purple;">
+
                     <columns>
-                        <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
-                        <TableColumn fx:id="colNome" prefWidth="88.0" text="Nome" />
-                        <TableColumn fx:id="colEndereco" prefWidth="82.0" text="Endereço" />
-                        <TableColumn fx:id="colTelefone" prefWidth="71.0" text="Telefone" />
-                        <TableColumn fx:id="colQuantAlunos" prefWidth="99.0" text="Quant. Alunos" />
+                        <TableColumn fx:id="colId" prefWidth="53.0" style="-fx-background-color: purple; -fx-text-fill: white; -fx-text: white;" text="ID" />
+
+                        <TableColumn fx:id="colNome" prefWidth="105.0" style="-fx-background-color: purple; -fx-text-fill: white; -fx-text: white;" text="Nome" />
+
+                        <TableColumn fx:id="colEndereco" prefWidth="153.0" style="-fx-background-color: purple; -fx-text-fill: white; -fx-text: white;" text="Endereço" />
+
+                        <TableColumn fx:id="colTelefone" prefWidth="127.0" style="-fx-background-color: purple; -fx-text-fill: white; -fx-text: white;" text="Telefone" />
+
+                        <TableColumn fx:id="colQuantAlunos" minWidth="7.0" prefWidth="104.0" style="-fx-background-color: purple; -fx-text-fill: white; -fx-text: white;" text="Quant. de alunos" />
                     </columns>
                 </TableView>
-                <Label layoutX="12.0" layoutY="115.0" prefHeight="17.0" prefWidth="95.0" text="Telefone" textAlignment="RIGHT" textFill="WHITE" />
-                <TextField fx:id="txtTelefone" layoutX="143.0" layoutY="110.0" />
-                <Label layoutX="12.0" layoutY="151.0" prefHeight="17.0" prefWidth="129.0" text="Quantidade de alunos" textFill="WHITE" />
-                <TextField fx:id="txtQuantAlunos" layoutX="143.0" layoutY="146.0" />
+
             </children>
         </Pane>
     </children>

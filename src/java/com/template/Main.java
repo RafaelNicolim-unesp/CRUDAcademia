@@ -16,7 +16,7 @@ public class Main extends Application
 
         Scene scene = new Scene(loader.load(), 600, 400);
 
-        stage.setTitle("Hello");
+        stage.setTitle("CRUD Academia");
         stage.setScene(scene);
         stage.show();
     }

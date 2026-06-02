@@ -1,13 +1,20 @@
 package com.template;
 
 public class AcademiaDTO {
+
     private int id;
     private String nome;
     private String endereco;
     private String telefone;
     private int quantidadeAlunos;
 
-    public AcademiaDTO(int id, String nome, String endereco, String telefone, int quantidadeAlunos) {
+    public AcademiaDTO(
+            int id,
+            String nome,
+            String endereco,
+            String telefone,
+            int quantidadeAlunos) {
+
         this.id = id;
         this.nome = nome;
         this.endereco = endereco;
@@ -35,6 +42,10 @@ public class AcademiaDTO {
         return quantidadeAlunos;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -53,10 +64,6 @@ public class AcademiaDTO {
 
     @Override
     public String toString() {
-        return "\nID: " + id +
-                "\nNome: " + nome +
-                "\nEndereço: " + endereco +
-                "\nTelefone: " + telefone +
-                "\nQuantidade de Alunos: " + quantidadeAlunos;
+        return nome;
     }
 }
