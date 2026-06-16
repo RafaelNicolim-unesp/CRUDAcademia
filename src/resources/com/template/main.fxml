@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/26"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.template.MainController">
+
+    <children>
+
+        <Pane prefHeight="400.0" prefWidth="600.0"
+              style="-fx-background-color: #4C1D95;">
+
+            <children>
+
+                <Label layoutX="205.0"
+                       layoutY="10.0"
+                       text="Sistema de Academias"
+                       textFill="#DDD6FE">
+                    <font>
+                        <Font size="18"/>
+                    </font>
+                </Label>
+
+                <Label layoutX="25.0"
+                       layoutY="50.0"
+                       text="Nome:"
+                       textFill="WHITE"/>
+
+                <TextField fx:id="txtNome"
+                           layoutX="140.0"
+                           layoutY="45.0"
+                           prefWidth="220.0"
+                           style="-fx-background-color: #E9D5FF;" />
+
+                <Label layoutX="25.0"
+                       layoutY="85.0"
+                       text="Endereço:"
+                       textFill="WHITE"/>
+
+                <TextField fx:id="txtEndereco"
+                           layoutX="140.0"
+                           layoutY="80.0"
+                           prefWidth="220.0"
+                           style="-fx-background-color: #E9D5FF;" />
+
+                <Label layoutX="25.0"
+                       layoutY="120.0"
+                       text="Telefone:"
+                       textFill="WHITE"/>
+
+                <TextField fx:id="txtTelefone"
+                           layoutX="140.0"
+                           layoutY="115.0"
+                           prefWidth="220.0"
+                           style="-fx-background-color: #E9D5FF;" />
+
+                <Label layoutX="25.0"
+                       layoutY="155.0"
+                       text="Qtd. Alunos:"
+                       textFill="WHITE"/>
+
+                <TextField fx:id="txtQuantAlunos"
+                           layoutX="140.0"
+                           layoutY="150.0"
+                           prefWidth="220.0"
+                           style="-fx-background-color: #E9D5FF;" />
+
+                <Button fx:id="btnSalvar"
+                        layoutX="410.0"
+                        layoutY="45.0"
+                        prefWidth="90.0"
+                        text="Salvar"
+                        onAction="#btnSalvarAction"
+                        style="-fx-background-color: #7C3AED; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+                <Button fx:id="btnEditar"
+                        layoutX="410.0"
+                        layoutY="80.0"
+                        prefWidth="90.0"
+                        text="Editar"
+                        onAction="#btnEditarAction"
+                        style="-fx-background-color: #8B5CF6; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+                <Button fx:id="btnDeletar"
+                        layoutX="410.0"
+                        layoutY="115.0"
+                        prefWidth="90.0"
+                        text="Deletar"
+                        onAction="#btnDeletarAction"
+                        style="-fx-background-color: #5B21B6; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+                <Button fx:id="btnLimpar"
+                        layoutX="410.0"
+                        layoutY="150.0"
+                        prefWidth="90.0"
+                        text="Limpar"
+                        onAction="#btnLimparAction"
+                        style="-fx-background-color: #A78BFA; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+                <TableView fx:id="tblAcademia"
+                           layoutX="20.0"
+                           layoutY="200.0"
+                           prefHeight="180.0"
+                           prefWidth="560.0">
+
+                    <columns>
+
+                        <TableColumn fx:id="colId"
+                                     prefWidth="50.0"
+                                     text="ID" />
+
+                        <TableColumn fx:id="colNome"
+                                     prefWidth="120.0"
+                                     text="Nome" />
+
+                        <TableColumn fx:id="colEndereco"
+                                     prefWidth="170.0"
+                                     text="Endereço" />
+
+                        <TableColumn fx:id="colTelefone"
+                                     prefWidth="110.0"
+                                     text="Telefone" />
+
+                        <TableColumn fx:id="colQuantAlunos"
+                                     prefWidth="110.0"
+                                     text="Qtd. Alunos" />
+
+                    </columns>
+
+                </TableView>
+
+            </children>
+
+        </Pane>
+
+    </children>
+
+</AnchorPane>
