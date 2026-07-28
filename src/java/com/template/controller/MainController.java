@@ -1,5 +1,8 @@
-package com.template;
+package com.template.controller;
 
+import com.template.model.dao.AcademiaDAO;
+import com.template.model.dto.AcademiaDTO;
+import com.template.util.DialogUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -109,28 +112,25 @@ public class MainController {
 
     @FXML
     private void btnDeletarAction() {
-        AcademiaDTO selecionado =
-                tblAcademia.getSelectionModel().getSelectedItem();
+        AcademiaDTO selecionado = tblAcademia.getSelectionModel().getSelectedItem();
 
-        if (selecionado != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmar Exclusão");
-            alert.setHeaderText(null);
-            alert.setContentText("Deseja realmente excluir a academia \"" + selecionado.getNome() + "\"?");
-
-            Optional<ButtonType> resultado = alert.showAndWait();
-            if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-                dao.deletar(selecionado.getId());
-
-                carregarAcademias();
-                limparCampos();
-
-                lblMensagem.setStyle("-fx-text-fill: blue;");
-                lblMensagem.setText("Academia deletada com sucesso.");
-                LOGGER.info("Academia deletada.");
-            }
-        } else {
+        if (selecionado == null) {
             LOGGER.warning("Nenhuma academia selecionada para deletar.");
+            return;
+        }
+
+        String mensagem = "Deseja realmente excluir a academia \"" + selecionado.getNome() + "\"?";
+
+        // Chama o alerta genérico
+        if (DialogUtils.confirmar("Confirmar Exclusão", mensagem)) {
+            dao.deletar(selecionado.getId());
+
+            carregarAcademias();
+            limparCampos();
+
+            lblMensagem.setStyle("-fx-text-fill: blue;");
+            lblMensagem.setText("Academia deletada com sucesso.");
+            LOGGER.info("Academia deletada.");
         }
     }
 
