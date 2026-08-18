@@ -1,18 +1,16 @@
 package com.template.controller;
 
-import com.template.model.dao.AcademiaDAO;
 import com.template.model.dto.AcademiaDTO;
-import com.template.validator.AcademiaValidator;
+import com.template.service.AcademiaService;
+import com.template.util.AcademiaViewUtils;
 import com.template.util.DialogUtils;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +20,8 @@ public class MainController {
     private static final Logger LOGGER =
             Logger.getLogger(MainController.class.getName());
 
-    private final AcademiaDAO dao = new AcademiaDAO();
+    private final AcademiaService service =
+            new AcademiaService();
 
     @FXML
     private Button btnSalvar;
@@ -74,33 +73,50 @@ public class MainController {
 
         try {
 
-            if (!validarCampos()) {
-                return;
-            }
-
-            AcademiaDTO academia = new AcademiaDTO(
-                    0,
-                    txtNome.getText().trim(),
-                    txtEndereco.getText().trim(),
-                    txtTelefone.getText().trim(),
-                    Integer.parseInt(txtQuantAlunos.getText().trim())
+            service.salvar(
+                    txtNome.getText(),
+                    txtEndereco.getText(),
+                    txtTelefone.getText(),
+                    txtQuantAlunos.getText()
             );
 
-            dao.inserir(academia);
-
             carregarAcademias();
-            limparCampos();
 
-            mostrarMensagem(
+            AcademiaViewUtils.limparCampos(
+                    txtNome,
+                    txtEndereco,
+                    txtTelefone,
+                    txtQuantAlunos,
+                    lblMensagem,
+                    tblAcademia
+            );
+
+            AcademiaViewUtils.mostrarMensagem(
+                    lblMensagem,
                     "Academia salva com sucesso!",
                     "green"
             );
 
-            LOGGER.info("Academia salva com sucesso.");
+        } catch (IllegalArgumentException e) {
+
+            AcademiaViewUtils.mostrarMensagem(
+                    lblMensagem,
+                    e.getMessage(),
+                    "red"
+            );
+
+            AcademiaViewUtils.focarCampoComErro(
+                    e.getMessage(),
+                    txtNome,
+                    txtEndereco,
+                    txtTelefone,
+                    txtQuantAlunos
+            );
 
         } catch (Exception e) {
 
-            mostrarMensagem(
+            AcademiaViewUtils.mostrarMensagem(
+                    lblMensagem,
                     "Erro ao salvar a academia.",
                     "red"
             );
@@ -117,48 +133,61 @@ public class MainController {
     private void btnEditarAction() {
 
         AcademiaDTO selecionado =
-                tblAcademia.getSelectionModel().getSelectedItem();
+                AcademiaViewUtils.obterSelecionado(
+                        tblAcademia
+                );
 
         if (selecionado == null) {
-
-            LOGGER.warning(
-                    "Nenhuma academia selecionada para editar."
-            );
-
             return;
         }
 
         try {
 
-            if (!validarCampos()) {
-                return;
-            }
-
-            AcademiaDTO academia = new AcademiaDTO(
+            service.editar(
                     selecionado.getId(),
-                    txtNome.getText().trim(),
-                    txtEndereco.getText().trim(),
-                    txtTelefone.getText().trim(),
-                    Integer.parseInt(
-                            txtQuantAlunos.getText().trim()
-                    )
+                    txtNome.getText(),
+                    txtEndereco.getText(),
+                    txtTelefone.getText(),
+                    txtQuantAlunos.getText()
             );
 
-            dao.atualizar(academia);
-
             carregarAcademias();
-            limparCampos();
 
-            mostrarMensagem(
+            AcademiaViewUtils.limparCampos(
+                    txtNome,
+                    txtEndereco,
+                    txtTelefone,
+                    txtQuantAlunos,
+                    lblMensagem,
+                    tblAcademia
+            );
+
+            AcademiaViewUtils.mostrarMensagem(
+                    lblMensagem,
                     "Academia editada com sucesso!",
                     "green"
             );
 
-            LOGGER.info("Academia editada com sucesso.");
+        } catch (IllegalArgumentException e) {
+
+            AcademiaViewUtils.mostrarMensagem(
+                    lblMensagem,
+                    e.getMessage(),
+                    "red"
+            );
+
+            AcademiaViewUtils.focarCampoComErro(
+                    e.getMessage(),
+                    txtNome,
+                    txtEndereco,
+                    txtTelefone,
+                    txtQuantAlunos
+            );
 
         } catch (Exception e) {
 
-            mostrarMensagem(
+            AcademiaViewUtils.mostrarMensagem(
+                    lblMensagem,
                     "Erro ao editar a academia.",
                     "red"
             );
@@ -175,26 +204,20 @@ public class MainController {
     private void btnDeletarAction() {
 
         AcademiaDTO selecionado =
-                tblAcademia.getSelectionModel().getSelectedItem();
+                AcademiaViewUtils.obterSelecionado(
+                        tblAcademia
+                );
 
         if (selecionado == null) {
-
-            LOGGER.warning(
-                    "Nenhuma academia selecionada para deletar."
-            );
-
             return;
         }
-
-        String mensagem =
-                "Deseja realmente excluir a academia \""
-                        + selecionado.getNome()
-                        + "\"?";
 
         boolean confirmou =
                 DialogUtils.confirmar(
                         "Confirmar Exclusão",
-                        mensagem
+                        "Deseja realmente excluir a academia \""
+                                + selecionado.getNome()
+                                + "\"?"
                 );
 
         if (!confirmou) {
@@ -203,21 +226,31 @@ public class MainController {
 
         try {
 
-            dao.deletar(selecionado.getId());
+            service.deletar(
+                    selecionado.getId()
+            );
 
             carregarAcademias();
-            limparCampos();
 
-            mostrarMensagem(
+            AcademiaViewUtils.limparCampos(
+                    txtNome,
+                    txtEndereco,
+                    txtTelefone,
+                    txtQuantAlunos,
+                    lblMensagem,
+                    tblAcademia
+            );
+
+            AcademiaViewUtils.mostrarMensagem(
+                    lblMensagem,
                     "Academia deletada com sucesso.",
                     "blue"
             );
 
-            LOGGER.info("Academia deletada com sucesso.");
-
         } catch (Exception e) {
 
-            mostrarMensagem(
+            AcademiaViewUtils.mostrarMensagem(
+                    lblMensagem,
                     "Erro ao deletar a academia.",
                     "red"
             );
@@ -233,165 +266,55 @@ public class MainController {
     @FXML
     private void btnLimparAction() {
 
-        limparCampos();
-
-        LOGGER.info("Campos limpos.");
-    }
-
-    private void limparCampos() {
-
-        txtNome.clear();
-        txtEndereco.clear();
-        txtTelefone.clear();
-        txtQuantAlunos.clear();
-
-        lblMensagem.setText("");
-
-        tblAcademia
-                .getSelectionModel()
-                .clearSelection();
+        AcademiaViewUtils.limparCampos(
+                txtNome,
+                txtEndereco,
+                txtTelefone,
+                txtQuantAlunos,
+                lblMensagem,
+                tblAcademia
+        );
     }
 
     private void carregarAcademias() {
 
-        tblAcademia.setItems(
-                FXCollections.observableArrayList(
-                        dao.listar()
-                )
+        AcademiaViewUtils.carregarTabela(
+                tblAcademia,
+                service.listar()
         );
-    }
-
-    private boolean validarCampos() {
-
-        String erro = AcademiaValidator.validar(
-                txtNome.getText(),
-                txtEndereco.getText(),
-                txtTelefone.getText(),
-                txtQuantAlunos.getText()
-        );
-
-        if (erro != null) {
-
-            mostrarMensagem(
-                    erro,
-                    "red"
-            );
-
-            focarCampoComErro(erro);
-
-            return false;
-        }
-
-        lblMensagem.setText("");
-
-        return true;
-    }
-
-    private void focarCampoComErro(String erro) {
-
-        if (erro.contains("Nome")) {
-
-            txtNome.requestFocus();
-
-        } else if (erro.contains("Endereço")) {
-
-            txtEndereco.requestFocus();
-
-        } else if (erro.contains("Telefone")) {
-
-            txtTelefone.requestFocus();
-
-        } else if (erro.contains("Quantidade")) {
-
-            txtQuantAlunos.requestFocus();
-        }
-    }
-
-    private void mostrarMensagem(
-            String mensagem,
-            String cor
-    ) {
-
-        lblMensagem.setStyle(
-                "-fx-text-fill: " + cor + ";"
-        );
-
-        lblMensagem.setText(mensagem);
     }
 
     @FXML
     private void initialize() {
 
-        colId.setCellValueFactory(
-                new PropertyValueFactory<>("id")
+        AcademiaViewUtils.configurarTabela(
+                colId,
+                colNome,
+                colEndereco,
+                colTelefone,
+                colQuantAlunos
         );
 
-        colNome.setCellValueFactory(
-                new PropertyValueFactory<>("nome")
-        );
-
-        colEndereco.setCellValueFactory(
-                new PropertyValueFactory<>("endereco")
-        );
-
-        colTelefone.setCellValueFactory(
-                new PropertyValueFactory<>("telefone")
-        );
-
-        colQuantAlunos.setCellValueFactory(
-                new PropertyValueFactory<>("quantidadeAlunos")
-        );
-
-        btnEditar.disableProperty().bind(
+        AcademiaViewUtils.configurarBotoes(
+                btnSalvar,
+                btnEditar,
+                btnDeletar,
                 tblAcademia
-                        .getSelectionModel()
-                        .selectedItemProperty()
-                        .isNull()
-        );
-
-        btnDeletar.disableProperty().bind(
-                tblAcademia
-                        .getSelectionModel()
-                        .selectedItemProperty()
-                        .isNull()
-        );
-
-        btnSalvar.disableProperty().bind(
-                tblAcademia
-                        .getSelectionModel()
-                        .selectedItemProperty()
-                        .isNotNull()
         );
 
         tblAcademia
                 .getSelectionModel()
                 .selectedItemProperty()
                 .addListener(
-                        (obs, antigo, novo) -> {
-
-                            if (novo != null) {
-
-                                txtNome.setText(
-                                        novo.getNome()
-                                );
-
-                                txtEndereco.setText(
-                                        novo.getEndereco()
-                                );
-
-                                txtTelefone.setText(
-                                        novo.getTelefone()
-                                );
-
-                                txtQuantAlunos.setText(
-                                        String.valueOf(
-                                                novo.getQuantidadeAlunos()
-                                        )
-                                );
-
-                                lblMensagem.setText("");
-                            }
-                        }
+                        (obs, antigo, novo) ->
+                                AcademiaViewUtils.preencherCampos(
+                                        novo,
+                                        txtNome,
+                                        txtEndereco,
+                                        txtTelefone,
+                                        txtQuantAlunos,
+                                        lblMensagem
+                                )
                 );
 
         carregarAcademias();
@@ -400,5 +323,4 @@ public class MainController {
                 "FXML carregado com sucesso!"
         );
     }
-
 }
