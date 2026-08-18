@@ -1,0 +1,28 @@
+package com.template.validator;
+
+public class CampoObrigatorioValidador implements Validador<String> {
+    private final String nomeCampo;
+    private final String valor;
+    private final String endereco;
+
+    public CampoObrigatorioValidador(String nomeCampo, String valor, String endereco) {
+        this.nomeCampo = nomeCampo;
+        this.valor = valor;
+        this.endereco = endereco;
+    }
+
+    @Override
+    public boolean validar(String valor) {
+        return this.valor != null && !this.valor.trim().isEmpty();
+    }
+
+    @Override
+    public String getMensagemErro() {
+        return "O campo "+ nomeCampo +" deve ser preenchido!";
+    }
+
+    @Override
+    public String getValor() {
+        return valor;
+    }
+}
