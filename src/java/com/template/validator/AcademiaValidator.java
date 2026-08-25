@@ -1,5 +1,8 @@
 package com.template.validator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AcademiaValidator {
 
     private AcademiaValidator() {
@@ -12,68 +15,45 @@ public class AcademiaValidator {
             String quantidadeAlunos
     ) {
 
-        if (nome == null || nome.trim().isEmpty()) {
-            return "O campo Nome é obrigatório.";
-        }
+        List<Validador<String>> validadores = new ArrayList<>();
 
-        if (!nome.trim().matches("[\\p{L} ]+")) {
-            return "O nome deve conter apenas letras e espaços.";
-        }
+        validadores.add(
+                new CampoObrigatorioValidador("Nome", nome)
+        );
 
-        if (nome.trim().length() < 2) {
-            return "O nome deve possuir pelo menos 2 caracteres.";
-        }
+        validadores.add(
+                new ValidadorNome(nome)
+        );
 
-        if (endereco == null || endereco.trim().isEmpty()) {
-            return "O campo Endereço é obrigatório.";
-        }
+        validadores.add(
+                new CampoObrigatorioValidador("Endereço", endereco)
+        );
 
-        if (!endereco.trim().matches("[\\p{L}\\d .,'ºª/-]+")) {
-            return "O endereço possui caracteres inválidos.";
-        }
+        validadores.add(
+                new ValidadorEndereco(endereco)
+        );
 
-        if (endereco.trim().length() < 5) {
-            return "O endereço deve possuir pelo menos 5 caracteres.";
-        }
+        validadores.add(
+                new CampoObrigatorioValidador("Telefone", telefone)
+        );
 
-        if (telefone == null || telefone.trim().isEmpty()) {
-            return "O campo Telefone é obrigatório.";
-        }
+        validadores.add(
+                new ValidadorTelefone(telefone)
+        );
 
-        String telefoneLimpo = telefone.replaceAll("\\D", "");
+        validadores.add(
+                new CampoObrigatorioValidador("Quantidade de Alunos", quantidadeAlunos)
+        );
 
-        if (telefoneLimpo.length() != 10 &&
-                telefoneLimpo.length() != 11) {
-            return "O telefone deve possuir 10 ou 11 números.";
-        }
+        validadores.add(
+                new ValidadorQuantAlunos(quantidadeAlunos)
+        );
 
-        if (!telefone.matches(
-                "\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}"
-        )) {
-            return "O telefone está em um formato inválido.";
-        }
+        for (Validador<String> validador : validadores) {
 
-        if (quantidadeAlunos == null ||
-                quantidadeAlunos.trim().isEmpty()) {
-
-            return "O campo Quantidade de Alunos é obrigatório.";
-        }
-
-        if (!quantidadeAlunos.trim().matches("\\d+")) {
-            return "A quantidade de alunos deve conter apenas números.";
-        }
-
-        try {
-            int quantidade = Integer.parseInt(
-                    quantidadeAlunos.trim()
-            );
-
-            if (quantidade < 0) {
-                return "A quantidade de alunos não pode ser negativa.";
+            if (!validador.validar(validador.getValor())) {
+                return validador.getMensagemErro();
             }
-
-        } catch (NumberFormatException e) {
-            return "A quantidade de alunos informada é inválida.";
         }
 
         return null;
