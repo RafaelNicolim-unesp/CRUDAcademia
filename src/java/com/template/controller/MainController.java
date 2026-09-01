@@ -4,6 +4,7 @@ import com.template.model.dto.AcademiaDTO;
 import com.template.service.AcademiaService;
 import com.template.util.AcademiaViewUtils;
 import com.template.util.DialogUtils;
+import com.template.validator.IAcademiaValidator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,8 +21,16 @@ public class MainController {
     private static final Logger LOGGER =
             Logger.getLogger(MainController.class.getName());
 
+    private final IAcademiaValidator academiaValidator;
+
     private final AcademiaService service =
             new AcademiaService();
+
+    public MainController(
+            IAcademiaValidator academiaValidator
+    ) {
+        this.academiaValidator = academiaValidator;
+    }
 
     @FXML
     private Button btnSalvar;
